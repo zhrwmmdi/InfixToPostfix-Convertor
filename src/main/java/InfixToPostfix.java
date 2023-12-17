@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class InfixToPostfix {
-    private Stack<Character> charStack = new Stack<>();
+    private Stack<String> operatorStack = new Stack<>();
     private Stack<Integer> intStack = new Stack<>();
-
+    List<String> postfix = new ArrayList<>();
     private Scanner input = new Scanner(System.in);
     char character;
     boolean draw;
@@ -47,60 +48,44 @@ public class InfixToPostfix {
         return stringList;
     }
 
-    //TODO injas
+    public List<String> toPostFix(List<String> infix) {
+        List<String> postfix = new ArrayList<>();
+        for (String s : infix) {
+            //if we have number or letter, add it to result
+            if (s.matches("[0-9]+\\.?[0-9]*$")) {
+                postfix.add(s);
 
-//    private String toPostFix(String infix) {
-//        for (int i = 0; i < infix.length(); i++) {
-//
-//
-//            //if we have number, add it to result
-//            if (Character.isDigit(infix.charAt(i))) {
-//                while (Character.isDigit(infix.charAt(i))) {
-//                    postfix = postfix + infix.charAt(i);
-//                    i++;
-//                }
-//                i--;
-//
-//            } else if (Character.isLetter(character)) {
-//                while (Character.isLetter(infix.charAt(i))) {
-//                    postfix = postfix + infix.charAt(i);
-//                    i++;
-//                }
-//                i--;
-//                draw = true;
-//            }
-//
-//            //if we have ( add it to stack
-//            else if (infix.charAt(i) == '(') {
-//                charStack.push(character);
-//            }
-//
-//
-//            //if we have ) pop items from stack to result till reach the ( and ignore both ( & )
-//            else if (infix.charAt(i) == ')') {
-//                while (charStack.peek() != '(') {
-//                    postfix = postfix + charStack.pop();
-//                }
-//                charStack.pop();
-//            }
-//
-//            //if we have operators, pop them to result according to their priority
-//            else {
-//                //TODO: check what if last condition in while is removed
-//                while (!charStack.isEmpty() && (priority(charStack.peek()) >= priority(infix.charAt(i))) && charStack.peek() != '(') {
-//                    postfix = postfix + charStack.pop();
-//                }
-//                charStack.push(infix.charAt(i));
-//            }
-//
-//        }
-//
-//        //when all chars in infix scanned, any item left in stack is pop into result
-//        while (!charStack.isEmpty()) {
-//            postfix = postfix + charStack.pop();
-//        }
-//        return postfix;
-//    }
+            } else if (s.matches("[a-z]*|[A-Z]*")) {
+                postfix.add(s);
+            }
+            //if we have ( add it to stack
+            else if (s.equals("(")) {
+                operatorStack.push(s);
+            }
+            //if we have ")" pop items from stack to result till reach the "(" and ignore both "(" & ")"
+            else if (s.equals(")")) {
+                while (!Objects.equals(operatorStack.peek(), "(")) {
+                    postfix.add(operatorStack.pop());
+                }
+                operatorStack.pop();
+            }
+            //if we have operators, pop them to result according to their priority
+            else {
+                //TODO: check what if last condition in while is removed
+                while (!operatorStack.isEmpty() && (priority(operatorStack.peek()) >= priority(s)) && !Objects.equals(operatorStack.peek(), "(")) {
+                    postfix.add(operatorStack.pop());
+                }
+                operatorStack.push(s);
+            }
+
+        }
+
+        //when all chars in infix scanned, any item left in stack is popped into result
+        while (!operatorStack.isEmpty()) {
+            postfix.add(operatorStack.pop());
+        }
+        return postfix;
+    }
 
     private int calculator(String postfix) {
         for (int i = 0; i < postfix.length(); i++) {
@@ -222,9 +207,9 @@ public class InfixToPostfix {
 
     */
 
-    private int priority(char c) {
-        if (c == '+' || c == '-') return 1;
-        else if (c == '/' || c == '*' || c == '%') return 2;
+    private int priority(String c) {
+        if (c == "+" || c == "-") return 1;
+        else if (c == "/" || c == "*" || c == "%") return 2;
         return 0;
     }
 }
