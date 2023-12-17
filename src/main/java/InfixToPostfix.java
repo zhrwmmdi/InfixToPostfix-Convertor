@@ -4,23 +4,19 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class InfixToPostfix {
-    private Stack<String> operatorStack = new Stack<>();
-    private Stack<Double> numberStack = new Stack<>();
-    List<String> postfix = new ArrayList<>();
-    private Scanner input = new Scanner(System.in);
-
-    boolean draw;
+    private final Stack<String> operatorStack = new Stack<>();
+    private final Stack<Double> numberStack = new Stack<>();
+    private final Scanner input = new Scanner(System.in);
 
 
-//    public void start() {
-//        String infix = input.nextLine();
-//        String postfix = toPostFix(infix);
-//        int value = calculator(postfix);
-//        System.out.println("Postfix expression: " + postfix + "\nCalculated value = " + value);
-//
-//    }
+    public void start() {
+        String infix = input.nextLine();
+        List<String> postfix = toPostFix(inputToList(infix));
+        double value = calculator(postfix);
+        System.out.println("Postfix expression: " + postfix + "\nCalculated value = " + value);
+    }
 
-    public List<String> inputToList(String infix){
+    private List<String> inputToList(String infix){
         List<String> stringList = new ArrayList<>();
 
         for (int i = 0; i < infix.length(); i++) {
@@ -39,7 +35,7 @@ public class InfixToPostfix {
                 }
                 i--;
                 stringList.add(postfix);
-                draw = true;
+                boolean draw = true;
             }
             else {
                 stringList.add(String.valueOf(infix.charAt(i)));
@@ -48,7 +44,7 @@ public class InfixToPostfix {
         return stringList;
     }
 
-    public List<String> toPostFix(List<String> infix) {
+    private List<String> toPostFix(List<String> infix) {
         List<String> postfix = new ArrayList<>();
         for (String s : infix) {
             //if we have number or letter, add it to result
@@ -85,29 +81,27 @@ public class InfixToPostfix {
         return postfix;
     }
 
-    public double calculator(List<String> postfix) {
-        for (int i = 0; i < postfix.size(); i++) {
-
-
-            if (postfix.get(i).matches("[0-9]+\\.?[0-9]*$")) {
-                numberStack.push(Double.valueOf(postfix.get(i)));
-            } else if (Objects.equals(postfix.get(i), "*")) {
+    private double calculator(List<String> postfix) {
+        for (String s : postfix) {
+            if (s.matches("[0-9]+\\.?[0-9]*$")) {
+                numberStack.push(Double.valueOf(s));
+            } else if (Objects.equals(s, "*")) {
                 double num1 = numberStack.pop();
                 double num2 = numberStack.pop();
                 numberStack.push(num2 * num1);
-            } else if (Objects.equals(postfix.get(i), "+")) {
+            } else if (Objects.equals(s, "+")) {
                 double num1 = numberStack.pop();
                 double num2 = numberStack.pop();
                 numberStack.push(num2 + num1);
-            } else if (Objects.equals(postfix.get(i), "-")) {
+            } else if (Objects.equals(s, "-")) {
                 double num1 = numberStack.pop();
                 double num2 = numberStack.pop();
                 numberStack.push(num2 - num1);
-            } else if (Objects.equals(postfix.get(i), "/")) {
+            } else if (Objects.equals(s, "/")) {
                 double num1 = numberStack.pop();
                 double num2 = numberStack.pop();
                 numberStack.push(num2 / num1);
-            } else if (Objects.equals(postfix.get(i), "%")) {
+            } else if (Objects.equals(s, "%")) {
                 double num1 = numberStack.pop();
                 double num2 = numberStack.pop();
                 numberStack.push(num2 % num1);
@@ -116,95 +110,6 @@ public class InfixToPostfix {
         }
         return numberStack.peek();
     }
-
-   /*
-    public int calculator2(String infix) {
-
-        for (int i = 0; i < infix.length(); i++) {
-            character = infix.charAt(i);
-
-            if (Character.isDigit(character)) {
-                intStack.push(Character.getNumericValue(character));
-            } else if (character == '(') {
-                charStack.push(character);
-            } else if (character == ')') {
-                while (charStack.peek() != '(') {
-                    char op = charStack.pop();
-                    int num1 = intStack.pop();
-                    int num2 = intStack.pop();
-                    switch (op) {
-                        case '+':
-                            intStack.push(num2 + num1);
-                            break;
-                        case '-':
-                            intStack.push(num2 - num1);
-                            break;
-                        case '*':
-                            intStack.push(num2 * num1);
-                            break;
-                        case '/':
-                            intStack.push(num2 / num1);
-                            break;
-                        case '%':
-                            intStack.push(num2 % num1);
-                            break;
-                    }
-                }
-                charStack.pop();
-            } else {
-                //TODO: check what if last condition in while is removed
-                while (!charStack.isEmpty() && (priority(charStack.peek()) >= priority(character)) && charStack.peek() != '(') {
-                    char op = charStack.pop();
-                    int num1 = intStack.pop();
-                    int num2 = intStack.pop();
-                    switch (op) {
-                        case '+':
-                            intStack.push(num2 + num1);
-                            break;
-                        case '-':
-                            intStack.push(num2 - num1);
-                            break;
-                        case '*':
-                            intStack.push(num2 * num1);
-                            break;
-                        case '/':
-                            intStack.push(num2 / num1);
-                            break;
-                        case '%':
-                            intStack.push(num2 % num1);
-                            break;
-                    }
-                }
-                charStack.push(character);
-            }
-        }
-        while (intStack.top != 0){
-            int num1 = intStack.pop();
-            int num2 = intStack.pop();
-            char ch = charStack.pop();
-            switch (ch) {
-                case '+':
-                    intStack.push(num2 + num1);
-                    break;
-                case '-':
-                    intStack.push(num2 - num1);
-                    break;
-                case '*':
-                    intStack.push(num2 * num1);
-                    break;
-                case '/':
-                    intStack.push(num2 / num1);
-                    break;
-                case '%':
-                    intStack.push(num2 % num1);
-                    break;
-            }
-        }
-        return intStack.peek();
-    }
-
-    */
-
     private int priority(String c) {
         if (Objects.equals(c, "+") || Objects.equals(c, "-")) return 1;
         else if (Objects.equals(c, "/") || Objects.equals(c, "*") || Objects.equals(c, "%")) return 2;
