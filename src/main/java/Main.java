@@ -6,16 +6,13 @@ public class Main {
         InfixToPostfix infixToPostfix = new InfixToPostfix();
 
 
-        String n = "(1+9)*(89-5)-8";
-        List<String> g = infixToPostfix.inputToList(n);
-//        g.add("3");
-//        g.add("+");
-//        g.add("6");
-//        g.add("-");
-//        g.add("9");
-        System.out.println(g);
+        //String n1 = "A+B*(C-D)";
+        String n1 = "A*B/C+D-E*F";
+        List<String> g = infixToPostfix.inputToList(n1);
+        List<String> p = infixToPostfix.toPostFix(g);
+        System.out.println(p);
 
-        System.out.println( infixToPostfix.toPostFix(g));
+
 
 
 
