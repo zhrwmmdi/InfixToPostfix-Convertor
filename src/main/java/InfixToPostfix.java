@@ -11,13 +11,13 @@ public class InfixToPostfix {
     boolean draw;
 
 
-    public void start() {
-        String infix = input.nextLine();
-        String postfix = toPostFix(infix);
-        int value = calculator(postfix);
-        System.out.println("Postfix expression: " + postfix + "\nCalculated value = " + value);
-
-    }
+//    public void start() {
+//        String infix = input.nextLine();
+//        String postfix = toPostFix(infix);
+//        int value = calculator(postfix);
+//        System.out.println("Postfix expression: " + postfix + "\nCalculated value = " + value);
+//
+//    }
 
     public List<String> inputToList(String infix){
         List<String> stringList = new ArrayList<>();
@@ -25,14 +25,14 @@ public class InfixToPostfix {
         for (int i = 0; i < infix.length(); i++) {
             String postfix = "";
             if (Character.isDigit(infix.charAt(i))) {
-                while (Character.isDigit(infix.charAt(i))) {
+                while (((i < infix.length() && Character.isDigit(infix.charAt(i)))) || (i < infix.length() && infix.charAt(i) == '.')) {
                     postfix = postfix + infix.charAt(i);
                     i++;
                 }
                 i--;
                 stringList.add(postfix);
             } else if (Character.isLetter(infix.charAt(i))) {
-                while (Character.isLetter(infix.charAt(i))) {
+                while (i < infix.length() && Character.isLetter(infix.charAt(i))) {
                     postfix = postfix + infix.charAt(i);
                     i++;
                 }
@@ -47,58 +47,60 @@ public class InfixToPostfix {
         return stringList;
     }
 
-    private String toPostFix(String infix) {
-        for (int i = 0; i < infix.length(); i++) {
+    //TODO injas
 
-
-            //if we have number, add it to result
-            if (Character.isDigit(infix.charAt(i))) {
-                while (Character.isDigit(infix.charAt(i))) {
-                    postfix = postfix + infix.charAt(i);
-                    i++;
-                }
-                i--;
-
-            } else if (Character.isLetter(character)) {
-                while (Character.isLetter(infix.charAt(i))) {
-                    postfix = postfix + infix.charAt(i);
-                    i++;
-                }
-                i--;
-                draw = true;
-            }
-
-            //if we have ( add it to stack
-            else if (infix.charAt(i) == '(') {
-                charStack.push(character);
-            }
-
-
-            //if we have ) pop items from stack to result till reach the ( and ignore both ( & )
-            else if (infix.charAt(i) == ')') {
-                while (charStack.peek() != '(') {
-                    postfix = postfix + charStack.pop();
-                }
-                charStack.pop();
-            }
-
-            //if we have operators, pop them to result according to their priority
-            else {
-                //TODO: check what if last condition in while is removed
-                while (!charStack.isEmpty() && (priority(charStack.peek()) >= priority(infix.charAt(i))) && charStack.peek() != '(') {
-                    postfix = postfix + charStack.pop();
-                }
-                charStack.push(infix.charAt(i));
-            }
-
-        }
-
-        //when all chars in infix scanned, any item left in stack is pop into result
-        while (!charStack.isEmpty()) {
-            postfix = postfix + charStack.pop();
-        }
-        return postfix;
-    }
+//    private String toPostFix(String infix) {
+//        for (int i = 0; i < infix.length(); i++) {
+//
+//
+//            //if we have number, add it to result
+//            if (Character.isDigit(infix.charAt(i))) {
+//                while (Character.isDigit(infix.charAt(i))) {
+//                    postfix = postfix + infix.charAt(i);
+//                    i++;
+//                }
+//                i--;
+//
+//            } else if (Character.isLetter(character)) {
+//                while (Character.isLetter(infix.charAt(i))) {
+//                    postfix = postfix + infix.charAt(i);
+//                    i++;
+//                }
+//                i--;
+//                draw = true;
+//            }
+//
+//            //if we have ( add it to stack
+//            else if (infix.charAt(i) == '(') {
+//                charStack.push(character);
+//            }
+//
+//
+//            //if we have ) pop items from stack to result till reach the ( and ignore both ( & )
+//            else if (infix.charAt(i) == ')') {
+//                while (charStack.peek() != '(') {
+//                    postfix = postfix + charStack.pop();
+//                }
+//                charStack.pop();
+//            }
+//
+//            //if we have operators, pop them to result according to their priority
+//            else {
+//                //TODO: check what if last condition in while is removed
+//                while (!charStack.isEmpty() && (priority(charStack.peek()) >= priority(infix.charAt(i))) && charStack.peek() != '(') {
+//                    postfix = postfix + charStack.pop();
+//                }
+//                charStack.push(infix.charAt(i));
+//            }
+//
+//        }
+//
+//        //when all chars in infix scanned, any item left in stack is pop into result
+//        while (!charStack.isEmpty()) {
+//            postfix = postfix + charStack.pop();
+//        }
+//        return postfix;
+//    }
 
     private int calculator(String postfix) {
         for (int i = 0; i < postfix.length(); i++) {
