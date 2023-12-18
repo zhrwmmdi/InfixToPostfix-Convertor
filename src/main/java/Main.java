@@ -3,7 +3,9 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args){
-        InfixToPostfix infixToPostfix = new InfixToPostfix();
-        infixToPostfix.start();
+//        GraphFrame g = new GraphFrame();
+//        g.setVisible(true);
+        InfixToPostfix obj = new InfixToPostfix();
+        obj.start();
     }
 }

@@ -1,3 +1,5 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -7,16 +9,28 @@ public class InfixToPostfix {
     private final Stack<String> operatorStack = new Stack<>();
     private final Stack<Double> numberStack = new Stack<>();
     private final Scanner input = new Scanner(System.in);
+    private boolean draw;
+    String infix = input.nextLine();
 
-
-    public void start() {
-        String infix = input.nextLine();
-        List<String> postfix = toPostFix(inputToList(infix));
-        double value = calculator(postfix);
-        System.out.println("Postfix expression: " + postfix + "\nCalculated value = " + value);
+    public String getInfix(){
+        return infix;
     }
 
-    private List<String> inputToList(String infix){
+    public void start() {
+
+        List<String> postfix = toPostFix(inputToList(infix));
+
+        if (!draw){
+            double value = calculator(postfix);
+            System.out.println("Postfix expression: " + postfix + "\nCalculated value = " + value);
+        }else {
+            System.out.println("Postfix expression: " + postfix);
+            draw();
+        }
+
+    }
+
+    public List<String> inputToList(String infix){
         List<String> stringList = new ArrayList<>();
 
         for (int i = 0; i < infix.length(); i++) {
@@ -35,7 +49,7 @@ public class InfixToPostfix {
                 }
                 i--;
                 stringList.add(postfix);
-                boolean draw = true;
+                draw = true;
             }
             else {
                 stringList.add(String.valueOf(infix.charAt(i)));
@@ -44,7 +58,7 @@ public class InfixToPostfix {
         return stringList;
     }
 
-    private List<String> toPostFix(List<String> infix) {
+    public List<String> toPostFix(List<String> infix) {
         List<String> postfix = new ArrayList<>();
         for (String s : infix) {
             //if we have number or letter, add it to result
@@ -110,6 +124,15 @@ public class InfixToPostfix {
         }
         return numberStack.peek();
     }
+
+    private void draw(){
+        GraphFrame g = new GraphFrame();
+        g.setVisible(true);
+//        Function f = new Function(toPostFix(this.inputToList(infix)), new Color(250,250,0));
+//        GraphPanel graphPanel = new GraphPanel();
+//        graphPanel.addFunction(f);
+    }
+
     private int priority(String c) {
         if (Objects.equals(c, "+") || Objects.equals(c, "-")) return 1;
         else if (Objects.equals(c, "/") || Objects.equals(c, "*") || Objects.equals(c, "%")) return 2;
