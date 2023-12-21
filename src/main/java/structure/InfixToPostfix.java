@@ -33,7 +33,9 @@ public class InfixToPostfix {
                 points.add(new GraphPoint(i,y));
             }
 
-            //draw();
+            for (GraphPoint point : points) {
+                System.out.println("X= " + point.getX() + "\t\tY= " + point.getY());
+            }
         }
 
     }
