@@ -1,9 +1,9 @@
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+package structure;
+
+import Graphic.GraphFrame;
+
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
 
 public class InfixToPostfix {
     private final Stack<String> operatorStack = new Stack<>();
@@ -11,6 +11,8 @@ public class InfixToPostfix {
     private final Scanner input = new Scanner(System.in);
     private boolean draw;
     String infix = input.nextLine();
+    List<GraphPoint> points = new ArrayList<>();
+
 
     public String getInfix(){
         return infix;
@@ -18,14 +20,21 @@ public class InfixToPostfix {
 
     public void start() {
 
-        List<String> postfix = toPostFix(inputToList(infix));
+        final List<String> postfix = toPostFix(inputToList(infix));
 
         if (!draw){
-            double value = calculator(postfix);
+            double value = calculator(postfix,0);
             System.out.println("Postfix expression: " + postfix + "\nCalculated value = " + value);
         }else {
+            //when we have function
             System.out.println("Postfix expression: " + postfix);
-            draw();
+
+            for (int i = 1; i <= 20; i++) {
+                double y = calculator(postfix,i);
+                points.add(new GraphPoint(i,y));
+            }
+
+            //draw();
         }
 
     }
@@ -95,10 +104,12 @@ public class InfixToPostfix {
         return postfix;
     }
 
-    private double calculator(List<String> postfix) {
+    private double calculator(List<String> postfix, int x) {
         for (String s : postfix) {
             if (s.matches("[0-9]+\\.?[0-9]*$")) {
                 numberStack.push(Double.valueOf(s));
+            } else if (s.equalsIgnoreCase("x")) {
+                numberStack.push((double) x);
             } else if (Objects.equals(s, "*")) {
                 double num1 = numberStack.pop();
                 double num2 = numberStack.pop();
@@ -125,11 +136,14 @@ public class InfixToPostfix {
         return numberStack.peek();
     }
 
+
     private void draw(){
+        System.out.println(4);
         GraphFrame g = new GraphFrame();
-        g.setVisible(true);
-//        Function f = new Function(toPostFix(this.inputToList(infix)), new Color(250,250,0));
-//        GraphPanel graphPanel = new GraphPanel();
+        System.out.println(8);
+       // g.setVisible(true);
+//        Graphic.Function f = new Graphic.Function(toPostFix(this.inputToList(infix)), new Color(250,250,0));
+//        Graphic.GraphPanel graphPanel = new Graphic.GraphPanel();
 //        graphPanel.addFunction(f);
     }
 

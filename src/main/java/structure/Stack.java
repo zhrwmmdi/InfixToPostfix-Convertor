@@ -1,3 +1,5 @@
+package structure;
+
 import java.util.ArrayList;
 public class Stack <T>{
     int top = -1;
@@ -12,7 +14,7 @@ public class Stack <T>{
     }
     T pop(){
         if (isEmpty()){
-            System.out.println("Stack is empty, no item found!");
+            System.out.println("structure.Stack is empty, no item found!");
             return null;
         }
 

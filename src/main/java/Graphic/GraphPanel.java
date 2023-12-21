@@ -1,22 +1,26 @@
+package Graphic;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
-class GraphPanel extends JPanel {
+
+public class GraphPanel extends JPanel {
     // The list of functions to plot
-    Vector<Function> functions;
+    List<Function> functions;
     // The scale of the x and y axes
     double xScale, yScale;
     // The origin of the coordinate system
     int originX, originY;
 
     // Constructor
-    GraphPanel() {
-        functions = new Vector<>(); // initialize the function list
+    public GraphPanel() {
+        functions = new ArrayList<>(); // initialize the function list
         xScale = 50; // set the default x scale
         yScale = 50; // set the default y scale
         originX = getWidth() / 2; // set the default origin x

@@ -1,3 +1,7 @@
+package Graphic;
+
+import structure.InfixToPostfix;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +11,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 
-class GraphFrame extends JFrame {
+public class GraphFrame extends JFrame {
     InfixToPostfix obj = new InfixToPostfix();
     // The graph panel
     GraphPanel graphPanel;
@@ -21,7 +25,8 @@ class GraphFrame extends JFrame {
     JColorChooser colorChooser;
 
     // Constructor
-    GraphFrame() {
+    public GraphFrame() {
+        System.out.println(1);
         setTitle("Graph Application"); // set the title of the frame
         setSize(800, 600); // set the size of the frame
         setLocationRelativeTo(null); // center the frame on the screen
@@ -37,11 +42,11 @@ class GraphFrame extends JFrame {
 
 
         //addButton = new JButton("Add"); // create the add button
-        //InfixToPostfix obj = new InfixToPostfix();
+        //structure.InfixToPostfix obj = new structure.InfixToPostfix();
         Color color = colorChooser.getColor(); // get the color from the color chooser
         Function f = new Function(obj.toPostFix(obj.inputToList(obj.getInfix())), color); // create a function object
         graphPanel.addFunction(f); // add the function to the graph panel
-
+        System.out.println(2);
         setVisible(true);
 
         }
