@@ -130,6 +130,11 @@ public class InfixToPostfix {
                 double num2 = numberStack.pop();
                 numberStack.push(num2 % num1);
             }
+            else if (Objects.equals(s, "^")) {
+                double num1 = numberStack.pop();
+                double num2 = numberStack.pop();
+                numberStack.push(Math.pow(num2, num1));
+            }
 
         }
         return numberStack.peek();
@@ -142,7 +147,7 @@ public class InfixToPostfix {
 
     private int priority(String c) {
         if (Objects.equals(c, "+") || Objects.equals(c, "-")) return 1;
-        else if (Objects.equals(c, "/") || Objects.equals(c, "*") || Objects.equals(c, "%")) return 2;
+        else if (Objects.equals(c, "/") || Objects.equals(c, "*") || Objects.equals(c, "%") || Objects.equals(c, "^")) return 2;
         return 0;
     }
 }
