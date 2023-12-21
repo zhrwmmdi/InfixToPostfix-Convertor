@@ -1,6 +1,5 @@
 package structure;
 
-import Graphic.GraphFrame;
 
 import java.util.*;
 import java.util.List;
@@ -138,13 +137,7 @@ public class InfixToPostfix {
 
 
     private void draw(){
-        System.out.println(4);
-        GraphFrame g = new GraphFrame();
-        System.out.println(8);
-       // g.setVisible(true);
-//        Graphic.Function f = new Graphic.Function(toPostFix(this.inputToList(infix)), new Color(250,250,0));
-//        Graphic.GraphPanel graphPanel = new Graphic.GraphPanel();
-//        graphPanel.addFunction(f);
+
     }
 
     private int priority(String c) {
