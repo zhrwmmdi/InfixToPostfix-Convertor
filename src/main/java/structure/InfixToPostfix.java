@@ -1,98 +1,42 @@
 package structure;
 
-
 import javax.swing.*;
 import java.util.*;
 import java.util.List;
-
+import Graphic.DoubleCurveDrawing;
+import calculation.Calculate;
+import manager.InputManager;
 
 public class InfixToPostfix {
-    private final Stack<String> operatorStack = new Stack<>();
-    private final Stack<Double> numberStack = new Stack<>();
-    private final Scanner input = new Scanner(System.in);
-    private boolean draw;
-    public static double[] Xs;
-    public static double[] Ys;
-    String infix = input.nextLine();
-    List<GraphPoint> points = new ArrayList<>();
-
-
-    public String getInfix(){
-        return infix;
-    }
+    private final static Stack<String> operatorStack = new Stack<>();
+    public final static Stack<Double> numberStack = new Stack<>();
+    final String numberRegex = "[0-9]+\\.?[0-9]*$";
+    final String letterRegex = "[a-z]*|[A-Z]*";
+    public static List<String> postfixList;
 
     public void start() {
+        postfixList= toPostFix(InputManager.getInfixList());
 
-        Ys = new double[401];
-        Xs = new double[401];
-
-        int start = -200;
-        for (int i = 0; i < 401; i++) {
-            Xs[i] = start;
-            start++;
-        }
-
-
-        final List<String> postfix = toPostFix(inputToList(infix));
-
-        if (!draw){
-            double value = calculator(postfix,0);
-            System.out.println("Postfix expression: " + postfix + "\nCalculated value = " + value);
+        if (!InputManager.isDrawable()){
+            double value = Calculate.evaluate(postfixList,0);
+            System.out.println("Postfix expression: " + postfixList + "\nCalculated value = " + value);
         }else {
-            //when we have function
-            System.out.println("Postfix expression: " + postfix);
-
-            int s = -200;
-            for (int i = 1; i <= 401; i++) {
-                double y = calculator(postfix,s);
-                Ys[i-1] = y;
-                s++;
-            }
-
+            System.out.println("Postfix expression: " + postfixList);
+            Calculate.fillPoints();
             SwingUtilities.invokeLater(() -> {
                 DoubleCurveDrawing doubleCurveDrawing = new DoubleCurveDrawing();
                 doubleCurveDrawing.setVisible(true);
             });
         }
-
-    }
-
-    public List<String> inputToList(String infix){
-        List<String> stringList = new ArrayList<>();
-
-        for (int i = 0; i < infix.length(); i++) {
-            String postfix = "";
-            if (Character.isDigit(infix.charAt(i))) {
-                while (((i < infix.length() && Character.isDigit(infix.charAt(i)))) || (i < infix.length() && infix.charAt(i) == '.')) {
-                    postfix = postfix + infix.charAt(i);
-                    i++;
-                }
-                i--;
-                stringList.add(postfix);
-            } else if (Character.isLetter(infix.charAt(i))) {
-                while (i < infix.length() && Character.isLetter(infix.charAt(i))) {
-                    postfix = postfix + infix.charAt(i);
-                    i++;
-                }
-                i--;
-                stringList.add(postfix);
-                draw = true;
-            }
-            else {
-                stringList.add(String.valueOf(infix.charAt(i)));
-            }
-        }
-        return stringList;
     }
 
     public List<String> toPostFix(List<String> infix) {
         List<String> postfix = new ArrayList<>();
         for (String s : infix) {
             //if we have number or letter, add it to result
-            if (s.matches("[0-9]+\\.?[0-9]*$")) {
+            if (s.matches(numberRegex)) {
                 postfix.add(s);
-
-            } else if (s.matches("[a-z]*|[A-Z]*")) {
+            } else if (s.matches(letterRegex)) {
                 postfix.add(s);
             }
             //if we have ( add it to stack
@@ -114,56 +58,12 @@ public class InfixToPostfix {
                 operatorStack.push(s);
             }
         }
-
         //when all chars in infix scanned, any item left in stack is popped into result
         while (!operatorStack.isEmpty()) {
             postfix.add(operatorStack.pop());
         }
         return postfix;
     }
-
-    private double calculator(List<String> postfix, int x) {
-        for (String s : postfix) {
-            if (s.matches("[0-9]+\\.?[0-9]*$")) {
-                numberStack.push(Double.valueOf(s));
-            } else if (s.equalsIgnoreCase("x")) {
-                numberStack.push((double) x);
-            } else if (Objects.equals(s, "*")) {
-                double num1 = numberStack.pop();
-                double num2 = numberStack.pop();
-                numberStack.push(num2 * num1);
-            } else if (Objects.equals(s, "+")) {
-                double num1 = numberStack.pop();
-                double num2 = numberStack.pop();
-                numberStack.push(num2 + num1);
-            } else if (Objects.equals(s, "-")) {
-                double num1 = numberStack.pop();
-                double num2 = numberStack.pop();
-                numberStack.push(num2 - num1);
-            } else if (Objects.equals(s, "/")) {
-                double num1 = numberStack.pop();
-                double num2 = numberStack.pop();
-                numberStack.push(num2 / num1);
-            } else if (Objects.equals(s, "%")) {
-                double num1 = numberStack.pop();
-                double num2 = numberStack.pop();
-                numberStack.push(num2 % num1);
-            }
-            else if (Objects.equals(s, "^")) {
-                double num1 = numberStack.pop();
-                double num2 = numberStack.pop();
-                numberStack.push(Math.pow(num2, num1));
-            }
-
-        }
-        return numberStack.peek();
-    }
-
-
-    private void draw(){
-
-    }
-
     private int priority(String c) {
         if (Objects.equals(c, "+") || Objects.equals(c, "-")) return 1;
         else if (Objects.equals(c, "/") || Objects.equals(c, "*") || Objects.equals(c, "%") || Objects.equals(c, "^")) return 2;

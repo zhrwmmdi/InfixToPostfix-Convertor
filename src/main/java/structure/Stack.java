@@ -2,17 +2,17 @@ package structure;
 
 import java.util.ArrayList;
 public class Stack <T>{
-    int top = -1;
+    private int top = -1;
     private final ArrayList<T> elements = new ArrayList<>();
 
     public boolean isEmpty(){
         return top==-1;
     }
-    void push(T ch){
+    public void push(T ch){
          elements.add(ch);
          top++;
     }
-    T pop(){
+    public T pop(){
         if (isEmpty()){
             System.out.println("structure.Stack is empty, no item found!");
             return null;
@@ -24,7 +24,7 @@ public class Stack <T>{
         return data;
 
     }
-    T peek(){
+    public T peek(){
         return elements.get(top);
     }
 
