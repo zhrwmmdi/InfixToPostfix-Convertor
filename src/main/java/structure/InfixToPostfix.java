@@ -1,14 +1,18 @@
 package structure;
 
 
+import javax.swing.*;
 import java.util.*;
 import java.util.List;
+
 
 public class InfixToPostfix {
     private final Stack<String> operatorStack = new Stack<>();
     private final Stack<Double> numberStack = new Stack<>();
     private final Scanner input = new Scanner(System.in);
     private boolean draw;
+    public static double[] Xs;
+    public static double[] Ys;
     String infix = input.nextLine();
     List<GraphPoint> points = new ArrayList<>();
 
@@ -19,6 +23,16 @@ public class InfixToPostfix {
 
     public void start() {
 
+        Ys = new double[401];
+        Xs = new double[401];
+
+        int start = -200;
+        for (int i = 0; i < 401; i++) {
+            Xs[i] = start;
+            start++;
+        }
+
+
         final List<String> postfix = toPostFix(inputToList(infix));
 
         if (!draw){
@@ -28,14 +42,17 @@ public class InfixToPostfix {
             //when we have function
             System.out.println("Postfix expression: " + postfix);
 
-            for (int i = 1; i <= 20; i++) {
-                double y = calculator(postfix,i);
-                points.add(new GraphPoint(i,y));
+            int s = -200;
+            for (int i = 1; i <= 401; i++) {
+                double y = calculator(postfix,s);
+                Ys[i-1] = y;
+                s++;
             }
 
-            for (GraphPoint point : points) {
-                System.out.println("X= " + point.getX() + "\t\tY= " + point.getY());
-            }
+            SwingUtilities.invokeLater(() -> {
+                DoubleCurveDrawing doubleCurveDrawing = new DoubleCurveDrawing();
+                doubleCurveDrawing.setVisible(true);
+            });
         }
 
     }
