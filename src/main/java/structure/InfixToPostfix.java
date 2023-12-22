@@ -3,7 +3,7 @@ package structure;
 import javax.swing.*;
 import java.util.*;
 import java.util.List;
-import Graphic.DoubleCurveDrawing;
+import graphic.CurveDrawing;
 import calculation.Calculate;
 import manager.InputManager;
 
@@ -24,7 +24,7 @@ public class InfixToPostfix {
             System.out.println("Postfix expression: " + postfixList);
             Calculate.fillPoints();
             SwingUtilities.invokeLater(() -> {
-                DoubleCurveDrawing doubleCurveDrawing = new DoubleCurveDrawing();
+                CurveDrawing doubleCurveDrawing = new CurveDrawing();
                 doubleCurveDrawing.setVisible(true);
             });
         }

@@ -1,14 +1,14 @@
-package Graphic;
+package graphic;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DoubleCurveDrawing extends JFrame {
+public class CurveDrawing extends JFrame {
     // Create an instance of CurvePanel and add it to the frame
     CurvePanel curvePanel;
-    public DoubleCurveDrawing() {
+    public CurveDrawing() {
         setTitle("Curve Drawing");
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

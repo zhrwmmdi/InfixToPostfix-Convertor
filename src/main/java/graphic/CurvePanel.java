@@ -1,4 +1,4 @@
-package Graphic;
+package graphic;
 
 import calculation.Calculate;
 import javax.swing.*;
