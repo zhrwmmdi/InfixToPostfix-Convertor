@@ -1,10 +1,10 @@
 package structure;
 
-import javax.swing.*;
 import java.util.*;
 import java.util.List;
-import graphic.CurveDrawing;
+
 import calculation.Calculate;
+import graphic.DrawCurve;
 import manager.InputManager;
 
 public class InfixToPostfix {
@@ -23,10 +23,8 @@ public class InfixToPostfix {
         }else {
             System.out.println("Postfix expression: " + postfixList);
             Calculate.fillPoints();
-            SwingUtilities.invokeLater(() -> {
-                CurveDrawing doubleCurveDrawing = new CurveDrawing();
-                doubleCurveDrawing.setVisible(true);
-            });
+            DrawCurve drawer = new DrawCurve(Calculate.pointList);
+            drawer.draw();
         }
     }
 

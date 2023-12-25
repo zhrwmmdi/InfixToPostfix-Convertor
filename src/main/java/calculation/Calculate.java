@@ -1,6 +1,9 @@
 package calculation;
 
 import structure.InfixToPostfix;
+import structure.Point;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,15 +11,12 @@ public class Calculate {
     public static double[] xPoints;
     public static double[] yPoints;
     static final String numberRegex = "[0-9]+\\.?[0-9]*$";
+    public static List<Point> pointList = new ArrayList<>();
 
     public static void fillPoints(){
-        yPoints = new double[401];
-        xPoints = new double[401];
-
         int xValue = -200;
         for (int i = 0; i < 401; i++) {
-            xPoints[i] = xValue;
-            yPoints[i] = evaluate(InfixToPostfix.postfixList, (int) xPoints[i]);
+            pointList.add(new Point(xValue,evaluate(InfixToPostfix.postfixList, xValue)));
             xValue++;
         }
     }
